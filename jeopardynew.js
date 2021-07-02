@@ -6,10 +6,7 @@ const NUM_CLUES_PER_CAT = 5;
 
 let categories = [];
 
-/** Retreiving NUM_CATEGORIES random category from API.
- *
- * Returns array of category ids
- */
+/** Retreiving NUM_CATEGORIES random category from given API*/
 
 async function getCategoryIds() {
   // ask for 100 categories [most we can ask for], so we can pick random
@@ -20,17 +17,7 @@ async function getCategoryIds() {
   return _.sampleSize(catIds, NUM_CATEGORIES);
 }
 
-/** Return object with data about a category:
- *
- *  Returns { title: "Math", clues: clue-array }
- *
- * Where clue-array is:
- *   [
- *      {question: "Hamlet Author", answer: "Shakespeare", showing: null, value: 200},
- *      {question: "Bell Jar Author", answer: "Plath", showing: null, value: 400},
- *      ...
- *   ]
- */
+/** Return object with data about a category*/
 
 async function getCategory(catId) {
   let response = await axios.get(`${BASE_API_URL}category`, {
@@ -45,13 +32,7 @@ async function getCategory(catId) {
   return { title: cat.title, clues: randomClues };
 }
 
-/** Fill the HTML table#jeopardy with the categories & cells for questions.
- *
- * - The <thead> should be filled w/a <tr>, and a <td> for each category
- * - The <tbody> should be filled w/NUM_QUESTIONS_PER_CAT <tr>s,
- *   each with a question for each category in a <td>
- *   (initally, just show a "?" where the question/answer would go.)
- */
+/** Fill the HTML table#jeopardy with the categories & cells for questions.*/
 
 async function fillTable() {
   hideLoadingView();
@@ -78,13 +59,7 @@ async function fillTable() {
   }
 }
 
-/** Handle clicking on a clue: show the question or answer.
- *
- * Uses .showing property on clue to determine what to show:
- * - if currently null, show question & set .showing to "question"
- * - if currently "question", show answer & set .showing to "answer"
- * - if currently "answer", ignore click
- * */
+/** Handle clicking on a clue: show the question or answer */
 
 function handleClick(evt) {
   let $tgt = $(evt.target);
@@ -110,8 +85,7 @@ function handleClick(evt) {
   $tgt.html(msg);
 }
 
-/** Wipe the current Jeopardy board, show the loading spinner,
- * and update the button used to fetch data.
+/** Wipe the current Jeopardy board, show the loading spinner
  */
 
 function showLoadingView() {
@@ -135,12 +109,7 @@ function hideLoadingView() {
   $("#spin-container").hide();
 }
 
-/** Start game:
- *
- * - get random category Ids
- * - get data for each category
- * - create HTML table
- * */
+/** Start gamee*/
 
 async function setupAndStart() {
   let isLoading = $("#start").text() === "Loading...";
